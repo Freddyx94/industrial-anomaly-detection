@@ -1,0 +1,30 @@
+# All settings in one place. Paths are relative to the project root.
+
+seed: 42
+
+paths:
+  data_dir: data/mvtec_ad      # MVTec AD as downloaded (git-ignored)
+  fashion_mnist_dir: data/fashion_mnist  # Stage 1 learning dataset, downloaded by torchvision (git-ignored)
+  cache_dir: data/cache        # resized images and extracted features (git-ignored)
+  models_dir: models           # trained weights (git-ignored)
+  results_dir: results         # metric tables (CSV), committed
+  figures_dir: docs/images     # a few README figures, committed with dataset credit
+
+dataset:
+  # Object vs texture split as in the MVTec AD paper (Bergmann et al., 2019).
+  objects: [bottle, cable, capsule, hazelnut, metal_nut, pill, screw, toothbrush, transistor, zipper]
+  textures: [carpet, grid, leather, tile, wood]
+  expected_total_images: 5354  # published total; checked in notebooks/00_data.ipynb
+
+# The 5 starting categories, chosen in Stage 0 (2026-11-23, see FINDINGS.md):
+# bottle = easy object (large defects), screw = hard object (smallest defects, grayscale),
+# transistor = "misplaced" defects that cover the whole object, carpet = irregular texture,
+# grid = regular grayscale texture.
+categories: [bottle, screw, transistor, carpet, grid]
+
+image:
+  resize: 256   # every image (all are square) is resized to 256 x 256 before the model
+  # No centre crop (decided in Stage 0, 2026-11-23). A 224 crop, as in the PatchCore paper,
+  # would cut part of 232 of 1,258 defects and remove one completely (FINDINGS.md). Cost: about
+  # 30% more compute than 224 x 224. Set to 224 only to reproduce papers that crop.
+  crop: null

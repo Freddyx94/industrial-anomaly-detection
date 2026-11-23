@@ -1,0 +1,23 @@
+# Python 3.11. Exact versions so results can be reproduced.
+# Install: python3.11 -m venv .venv && .venv/bin/pip install -r requirements.txt && .venv/bin/pip install -e .
+# Later stages add MLflow, FAISS, FastAPI, Streamlit (asked for first).
+
+# Deep learning
+torch==2.15.0
+torchvision==0.29.2
+
+# Data and plots
+numpy==2.4.6
+pandas==3.1.1
+pillow==13.0.0
+matplotlib==3.11.2
+
+# Config
+PyYAML==6.0.4
+
+# Notebooks (run in VS Code, or headless with nbconvert)
+ipykernel==7.4.0
+nbconvert==7.17.2
+
+# Tests
+pytest==9.2.0

@@ -1,0 +1,17 @@
+[build-system]
+requires = ["setuptools>=61"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "inspection"
+version = "0.1.0"
+description = "Visual quality inspection on MVTec AD (learning project)"
+requires-python = ">=3.11,<3.12"
+
+# Package code lives in src/inspection/. The folder is not called "inspect" because that
+# name belongs to a Python standard-library module and the two would hide each other.
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]

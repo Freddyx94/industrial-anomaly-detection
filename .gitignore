@@ -1,0 +1,30 @@
+# --- Licence (MVTec AD is CC BY-NC-SA 4.0): never commit data or weights ---
+data/
+models/*
+!models/.gitkeep
+*.pt
+*.pth
+*.ckpt
+*.npy
+*.npz
+
+# --- Experiment tracking ---
+mlruns/
+mlartifacts/
+
+# --- Environment and secrets ---
+.venv/
+.env
+
+# --- Project instructions (kept local) ---
+CLAUDE.md
+
+# --- Python / Jupyter clutter ---
+__pycache__/
+*.pyc
+*.egg-info/
+.pytest_cache/
+.ipynb_checkpoints/
+
+# --- macOS ---
+.DS_Store

@@ -1,0 +1,16 @@
+category,kind,n_defect_images,median_area_pct,min_area_pct,max_area_pct,tiny_under_64px,partly_cut_by_crop,over_half_cut,fully_cut
+screw,object,119,0.288,0.099,1.011,0,12,1,0
+capsule,object,109,0.43,0.037,8.079,5,3,0,0
+leather,texture,92,0.462,0.089,6.859,1,8,0,0
+grid,texture,57,0.601,0.188,3.582,0,22,1,1
+pill,object,141,1.033,0.05,41.004,7,5,0,0
+toothbrush,object,30,1.078,0.238,12.976,0,5,0,0
+carpet,texture,89,1.476,0.165,8.017,0,11,1,0
+hazelnut,object,70,1.616,0.233,27.659,0,0,0,0
+transistor,object,40,2.028,0.224,49.321,0,9,0,0
+zipper,object,119,2.354,0.159,11.831,0,40,0,0
+wood,texture,60,2.895,0.263,41.269,0,26,1,0
+metal_nut,object,93,3.671,0.436,48.725,0,35,0,0
+cable,object,92,3.681,0.144,22.581,0,1,0,0
+bottle,object,63,5.718,0.576,27.419,0,4,0,0
+tile,texture,84,7.93,0.842,35.487,0,51,3,0

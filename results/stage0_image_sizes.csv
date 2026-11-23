@@ -1,0 +1,16 @@
+category,kind,image_size,colour_mode
+bottle,object,900×900,RGB
+cable,object,1024×1024,RGB
+capsule,object,1000×1000,RGB
+hazelnut,object,1024×1024,RGB
+metal_nut,object,700×700,RGB
+pill,object,800×800,RGB
+screw,object,1024×1024,L
+toothbrush,object,1024×1024,RGB
+transistor,object,1024×1024,RGB
+zipper,object,1024×1024,L
+carpet,texture,1024×1024,RGB
+grid,texture,1024×1024,L
+leather,texture,1024×1024,RGB
+tile,texture,840×840,RGB
+wood,texture,1024×1024,RGB

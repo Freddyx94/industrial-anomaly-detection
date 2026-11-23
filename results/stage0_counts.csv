@@ -1,0 +1,16 @@
+category,kind,train_good,test_good,test_defect,defect_types,masks_found,total,test_defect_share
+bottle,object,209,20,63,3,63,292,0.76
+cable,object,224,58,92,8,92,374,0.61
+capsule,object,219,23,109,5,109,351,0.83
+hazelnut,object,391,40,70,4,70,501,0.64
+metal_nut,object,220,22,93,4,93,335,0.81
+pill,object,267,26,141,7,141,434,0.84
+screw,object,320,41,119,5,119,480,0.74
+toothbrush,object,60,12,30,1,30,102,0.71
+transistor,object,213,60,40,4,40,313,0.4
+zipper,object,240,32,119,7,119,391,0.79
+carpet,texture,280,28,89,5,89,397,0.76
+grid,texture,264,21,57,5,57,342,0.73
+leather,texture,245,32,92,5,92,369,0.74
+tile,texture,230,33,84,5,84,347,0.72
+wood,texture,247,19,60,5,60,326,0.76
