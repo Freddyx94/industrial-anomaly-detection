@@ -74,3 +74,74 @@ Source: `notebooks/00_data.ipynb` (run on 2026-11-23). Result files: `results/st
   visible to the model and every mask pixel counts in the pixel metrics. The cost is about 30%
   more compute than 224 × 224 (256² / 224² ≈ 1.31), and our numbers cannot be compared
   one-to-one with papers that crop. Set in `config.yaml` (`image.crop: null`).
+
+## Stage 1: neural network fundamentals (Fashion-MNIST)
+
+Source: `notebooks/01_fundamentals.ipynb` (run on 2026-11-26). A learning stage on Fashion-MNIST
+(Xiao, Rasul and Vollgraf, Zalando Research, 2017; MIT licence), not on MVTec AD. Result files:
+`results/stage1_fashion_split.csv`, `stage1_fc_history.csv`, `stage1_fc_confusion.csv`,
+`stage1_regularisation.csv`, `stage1_fc_full_data.csv`, `stage1_fc_vs_cnn.csv`,
+`stage1_per_class_accuracy.csv`, `stage1_augmentation.csv`, `stage1_augmentation_robustness.csv`,
+`stage1_augmentation_full_data.csv`, `stage1_test.csv`.
+
+### Setup
+
+- The 60,000 training images were split once, with a fixed seed, into 50,000 for training and
+  10,000 for validation (957 to 1,061 per class). Every choice was made on the validation set.
+  The 10,000 official test images (1,000 per class) were used once, at the end.
+- Device: Apple GPU (`mps`). Every run is repeatable: rerunning the notebook gives the same
+  accuracies and losses; only the training times change a little.
+
+### Final results
+
+| model | weights | validation accuracy | test accuracy | validation loss | test loss |
+|---|---|---|---|---|---|
+| fully connected (dropout 0.3, weight decay 0.1, early stopping) | 269,322 | 89.24% | 88.62% | 0.298 | 0.321 |
+| small CNN (same settings) | 50,186 | 92.69% | 92.25% | 0.208 | 0.219 |
+
+Both models score a little lower on the test set, as expected after choosing them on
+validation. The CNN's lead holds: 3.6 points on test, 3.5 on validation.
+
+### What we found
+
+1. **Overfitting makes a model overconfident before it makes it less accurate.** Trained on
+   1,000 images for 100 epochs, the fully connected network reached 100% training accuracy and
+   81.2% validation accuracy. Its validation loss was lowest at epoch 13 (0.551) and doubled to
+   1.079 by epoch 100.
+2. **The fixes cured overconfidence, not accuracy.** Over 3 seeds, the validation loss was
+   1.027–1.105 without regularisation, 0.547–0.551 with early stopping, and 0.525–0.530 with
+   early stopping + dropout 0.5 + weight decay 1.0. Validation accuracy stayed between 80.2% and
+   81.4% in all 9 runs. Early stopping did most of the work.
+3. **Too much regularisation underfits, and the right amount depends on the data size.** Weight
+   decay 10 on 1,000 images: 92.0% training and 78.8% validation accuracy. On 50,000 images,
+   dropout 0.5 + weight decay 1.0 (the best setting on 1,000) gave 86.7%; the lighter dropout 0.3
+   + weight decay 0.1 gave 89.24% and the lowest validation loss (0.298).
+4. **The CNN beats the fully connected network with about 5 times fewer weights:** 92.69%
+   against 89.24% validation accuracy. It is better in every class; the largest gains are shirt
+   (67.7% → 77.8%), coat (85.9% → 91.5%) and pullover (81.1% → 86.3%). Shirt remains the hardest
+   class. The price is compute: about 3.0 s per epoch against 0.7 s.
+5. **Data augmentation buys robustness, not accuracy, on tidy data.** On 1,000 images (small
+   CNN, 3 seeds), validation accuracy was 83.5–84.2% without augmentation, 82.9–83.5% with a
+   left-right flip, 82.8–83.4% with flip + rotation up to 10°, and 69.3–71.3% with upside-down
+   flips + rotation up to 180°. On all 50,000 images: 92.69% without and 91.51% with flip +
+   rotation. But on mirrored validation images, the CNN without augmentation fell to 59.5%
+   (1,000 images) and 69.6% (50,000 images), while the augmented ones kept 83.1% and 91.7%.
+   Fashion-MNIST photos are all centred and upright, with almost every shoe pointing left, so
+   that robustness was never needed. Filling the corners of rotated images with the wrong colour
+   made no measurable difference to classification (82.8–83.4%).
+
+### What this means for MVTec AD
+
+- **Early stopping needs a validation set.** The autoencoder in Stage 2 will need one, made
+  only from good training images, never from the test set. How to split it is part of the
+  evaluation design, so we agree on it at the start of Stage 2.
+- **A difference smaller than the spread between seeds is not a finding.** Compare methods over
+  several seeds where training is random.
+- **Augment only with variation the good training images already show.** A mirrored good
+  metal nut has the shape of the `flip` defect, and a rotated good transistor looks like the
+  `misplaced` defect: augmenting them would teach the model that these defects are normal.
+  Screws already lie at every angle, so rotating them adds nothing new. Rotation by angles other
+  than multiples of 90° uncovers corners, which no good image has.
+- **Padding and empty corners create edges that are not in the image.** Both matter for
+  defects near the border: 232 of the 1,258 MVTec defects lie at least partly in the outer 6.25%
+  band of the image (Stage 0).

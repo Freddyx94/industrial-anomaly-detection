@@ -1,0 +1,5 @@
+setting,epoch_used,val_accuracy,val_loss,train_accuracy
+"section 2: no regularisation, last epoch",20,0.8952999711036682,0.39665481448173523,
+section 2: epoch with lowest validation loss,6,0.8884000182151794,0.3171669542789459,
+dropout 0.5 + weight decay 1.0 + early stopping,17,0.8671000003814697,0.36198917031288147,0.8788800239562988
+dropout 0.3 + weight decay 0.1 + early stopping,18,0.8924000263214111,0.29800963401794434,0.924340009689331
